@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pgsql-backup
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: pgsql-backup
+          image: postgis/postgis:14-master
+          imagePullPolicy: IfNotPresent
+          command: ["/scripts/backup-db.sh"]
+          env:
+            - name: PGPASSWORD
+              value: postgres
+          volumeMounts:
+            - name: data-files
+              mountPath: /data
+            - name: scripts
+              mountPath: /scripts/backup-db.sh
+      volumes:
+        - name: data-files
+          hostPath:
+            path: /path/to/backup-dir/
+        - name: scripts
+          hostPath:
+            path: /path/to/backup-db.sh

@@ -1,0 +1,21 @@
+#!/bin/sh
+if [ $1 == "" ]; then
+    echo $"Usage: $0 {pg-up|pg-down|docker-restart}"
+    exit 0
+fi
+
+case $1 in
+    pg-up)
+        mkdir -p ./tmp/{db/backup,data,cache}
+        docker-compose -f docker/docker-compose.dev.yml up -d
+        ;;
+    pg-down)
+        docker-compose -f docker/docker-compose.dev.yml down
+        ;;
+    docker-restart)
+        docker start $(docker ps -a -q -f status=exited)
+        ;;
+    -h | --help)
+        echo $"Usage: $0 {pg-up|pg-down|docker-restart}"
+        ;;
+esac
