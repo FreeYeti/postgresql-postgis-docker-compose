@@ -5,7 +5,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 	CREATE DATABASE test_db;
 EOSQL
 
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname test_backend_test <<-EOSQL
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname test_db <<-EOSQL
   CREATE EXTENSION hstore;
   CREATE EXTENSION postgis;
 EOSQL
